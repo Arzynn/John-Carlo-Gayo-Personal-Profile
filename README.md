@@ -142,3 +142,4 @@ This project is free to use and modify for personal portfolio purposes.
 ---
 
 © 2026 John Carlo M. Gayo. All Rights Reserved.
+"# John-Carlo-Gayo-Personal-Profile" 
