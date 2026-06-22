@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>John Carlo M. Gayo — BS Computer Science</title>
+  <meta name="description" content="Personal portfolio of John Carlo M. Gayo, BS Computer Science student and aspiring software developer." />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== Sticky Navbar ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">JCMG</a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#hero" class="nav-link active-link">home</a>
+        <a href="#about" class="nav-link">about</a>
+        <a href="#skills" class="nav-link">skills</a>
+        <a href="#projects" class="nav-link">projects</a>
+        <a href="#education" class="nav-link">education</a>
+        <a href="#contact" class="nav-link">contact</a>
+      </nav>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Hero Section ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+
+      <div class="hero-photo-wrap">
+        <div class="hero-photo">
+            <img src="assets/carlo.jpg" alt="John Carlo M. Gayo" id="heroPhotoImg"
+                 onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';"
+                 onload="document.getElementById('heroFallback').style.display='none';" />
+            <i id="heroFallback" class="fa-solid fa-user" style="display:none;"></i>
+          </div>
+        <span class="status-dot" title="Available for opportunities"></span>
+      </div>
+
+      <p class="terminal-line">
+        <span class="prompt">Personal Profile...</span>
+        <span id="typedText" class="typed-text"></span><span class="cursor">█</span>
+      </p>
+
+      <h1 class="hero-name">John Carlo M. Gayo</h1>
+      <p class="hero-course">Bachelor of Science in Computer Science</p>
+
+      <p class="hero-intro">
+        Aspiring Software Developer passionate about web development, database systems,
+        artificial intelligence, and technology innovation.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          <i class="fa-solid fa-diagram-project"></i> View My Projects
+        </a>
+        <a href="#contact" class="btn btn-ghost">
+          <i class="fa-regular fa-paper-plane"></i> Get In Touch
+        </a>
+      </div>
+
+      <a href="#about" class="scroll-cue" aria-label="Scroll to About section">
+        <i class="fa-solid fa-chevron-down"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== About Section ===== -->
+  <section class="section" id="about">
+    <div class="section-inner">
+      <p class="eyebrow"> about-me</p>
+      <h2 class="section-title">Getting to know me</h2>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <h3>Educational Background</h3>
+          <p>
+            Currently pursuing a Bachelor of Science in Computer Science, building a strong
+            foundation in programming, databases, software engineering, and computing theory
+            through hands-on coursework and personal projects.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h3>Career Goals</h3>
+          <p>
+            I aim to grow into a full-stack software developer, contributing to impactful systems
+            that solve real-world problems — eventually specializing in intelligent, data-driven
+            applications powered by artificial intelligence.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-heart"></i></div>
+          <h3>Personal Interests</h3>
+          <p>
+            Outside of code, I enjoy exploring new tech tools, tinkering with side projects,
+            playing strategy-based games, and following the latest trends in software and AI.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <div class="about-icon"><i class="fa-solid fa-bolt"></i></div>
+          <h3>Passion for Technology</h3>
+          <p>
+            I'm driven by curiosity — I love learning how systems work under the hood, then using
+            that knowledge to build web apps, databases, and predictive systems that make a
+            difference.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Skills Section ===== -->
+  <section class="section section-alt" id="skills">
+    <div class="section-inner">
+      <p class="eyebrow"> skills</p>
+      <h2 class="section-title">What I work with</h2>
+
+      <div class="skills-grid">
+
+        <div class="skill-card" data-skill="HTML" data-level="90">
+          <div class="skill-head">
+            <i class="fa-brands fa-html5 skill-icon"></i>
+            <span class="skill-name">HTML</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+          <span class="skill-percent">90%</span>
+        </div>
+
+        <div class="skill-card" data-skill="CSS" data-level="85">
+          <div class="skill-head">
+            <i class="fa-brands fa-css3-alt skill-icon"></i>
+            <span class="skill-name">CSS</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+          <span class="skill-percent">85%</span>
+        </div>
+
+        <div class="skill-card" data-skill="JavaScript" data-level="80">
+          <div class="skill-head">
+            <i class="fa-brands fa-js skill-icon"></i>
+            <span class="skill-name">JavaScript</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+          <span class="skill-percent">80%</span>
+        </div>
+
+        <div class="skill-card" data-skill="Python" data-level="78">
+          <div class="skill-head">
+            <i class="fa-brands fa-python skill-icon"></i>
+            <span class="skill-name">Python</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-width="78"></div></div>
+          <span class="skill-percent">78%</span>
+        </div>
+
+        <div class="skill-card" data-skill="Microsoft Access" data-level="75">
+          <div class="skill-head">
+            <i class="fa-solid fa-database skill-icon"></i>
+            <span class="skill-name">Microsoft Access</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+          <span class="skill-percent">75%</span>
+        </div>
+
+        <div class="skill-card" data-skill="Database Management" data-level="80">
+          <div class="skill-head">
+            <i class="fa-solid fa-server skill-icon"></i>
+            <span class="skill-name">Database Management</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+          <span class="skill-percent">80%</span>
+        </div>
+
+        <div class="skill-card" data-skill="Git &amp; GitHub" data-level="82">
+          <div class="skill-head">
+            <i class="fa-brands fa-git-alt skill-icon"></i>
+            <span class="skill-name">Git &amp; GitHub</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" data-width="82"></div></div>
+          <span class="skill-percent">82%</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Projects Section ===== -->
+  <section class="section" id="projects">
+    <div class="section-inner">
+      <p class="eyebrow"> projects</p>
+      <h2 class="section-title">Things I've built</h2>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="ai">AI / Prediction</button>
+        <button class="filter-btn" data-filter="database">Database</button>
+      </div>
+
+      <div class="projects-grid" id="projectsGrid">
+
+        <article class="project-card" data-category="web database">
+          <div class="project-top">
+            <i class="fa-solid fa-building-columns project-icon"></i>
+          </div>
+          <div class="project-body">
+            <h3>SKionix Barangay Management System</h3>
+            <p>
+              A digital system designed to streamline barangay records, resident profiling, and
+              document request processing — replacing manual, paper-based workflows.
+            </p>
+            <div class="tech-tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span><span>Database</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="ai">
+          <div class="project-top">
+            <i class="fa-solid fa-seedling project-icon"></i>
+          </div>
+          <div class="project-body">
+            <h3>Rice Yield Prediction System</h3>
+            <p>
+              A predictive analytics tool that estimates rice crop yield based on environmental
+              and agricultural data, helping support data-driven farming decisions.
+            </p>
+            <div class="tech-tags">
+              <span>Python</span><span>Machine Learning</span><span>Data Analysis</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="ai database">
+          <div class="project-top">
+            <i class="fa-solid fa-chart-line project-icon"></i>
+          </div>
+          <div class="project-body">
+            <h3>Student Academic Performance Prediction System</h3>
+            <p>
+              A system that analyzes academic records to predict student performance trends,
+              helping identify learners who may need additional support.
+            </p>
+            <div class="tech-tags">
+              <span>Python</span><span>Database Management</span><span>Prediction Models</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+          </div>
+        </article>
+
+        <article class="project-card" data-category="web">
+          <div class="project-top">
+            <i class="fa-solid fa-id-card project-icon"></i>
+          </div>
+          <div class="project-body">
+            <h3>Personal Portfolio Website</h3>
+            <p>
+              This very website — a responsive, dark-themed personal portfolio built to showcase
+              my profile, skills, and projects with a built-in local AI chatbot assistant.
+            </p>
+            <div class="tech-tags">
+              <span>HTML</span><span>CSS</span><span>JavaScript</span>
+            </div>
+          </div>
+          <div class="project-footer">
+            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Education Section ===== -->
+  <section class="section section-alt" id="education">
+    <div class="section-inner">
+      <p class="eyebrow"> education</p>
+      <h2 class="section-title">Academic journey</h2>
+
+      <div class="education-card">
+        <div class="education-row">
+          <i class="fa-solid fa-school edu-icon"></i>
+          <div>
+            <h3>Bachelor of Science in Computer Science</h3>
+            <p class="edu-sub">Current Program · Current Year Level: <strong>3rd Year</strong></p>
+          </div>
+        </div>
+
+        <div class="edu-divider"></div>
+
+        <h4 class="edu-subtitle">Relevant Coursework</h4>
+        <div class="coursework-grid">
+          <span><i class="fa-solid fa-code"></i> Data Structures &amp; Algorithms</span>
+          <span><i class="fa-solid fa-database"></i> Database Management Systems</span>
+          <span><i class="fa-solid fa-network-wired"></i> Computer Networks</span>
+          <span><i class="fa-solid fa-laptop-code"></i> Web Application Development</span>
+          <span><i class="fa-solid fa-brain"></i> Artificial Intelligence Fundamentals</span>
+          <span><i class="fa-solid fa-diagram-project"></i> Software Engineering</span>
+          <span><i class="fa-solid fa-shield-halved"></i> Information Assurance &amp; Security</span>
+          <span><i class="fa-solid fa-microchip"></i> Computer Organization</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact Section ===== -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <p class="eyebrow"> contact</p>
+      <h2 class="section-title">Let's connect</h2>
+      <p class="contact-lead">
+        Have a project in mind, an opportunity, or just want to talk tech? My inbox is open.
+      </p>
+
+      <div class="contact-grid">
+        <a href="mailto:johncarlogayo@gmail.com" class="contact-card">
+          <i class="fa-solid fa-envelope"></i>
+          <span class="contact-label">Email</span>
+          <span class="contact-value">johncarlogayo@gmail.com</span>
+        </a>
+
+        <a href="tel:+639153068211" class="contact-card">
+          <i class="fa-solid fa-phone"></i>
+          <span class="contact-label">Phone</span>
+          <span class="contact-value">+63 915 306 8211</span>
+        </a>
+
+        <a href="https://facebook.com/johncarlogayo" target="_blank" rel="noopener" class="contact-card">
+          <i class="fa-brands fa-facebook"></i>
+          <span class="contact-label">Facebook</span>
+          <span class="contact-value">facebook.com/johncarlogayo</span>
+        </a>
+
+        <a href="https://github.com/johncarlogayo" target="_blank" rel="noopener" class="contact-card">
+          <i class="fa-brands fa-github"></i>
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">github.com/johncarlogayo</span>
+        </a>
+
+        <a href="https://linkedin.com/in/johncarlogayo" target="_blank" rel="noopener" class="contact-card">
+          <i class="fa-brands fa-linkedin"></i>
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value">linkedin.com/in/johncarlogayo</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p>&copy; 2026 John Carlo M. Gayo. All Rights Reserved.</p>
+  </footer>
+
+  <!-- ===== Scroll To Top ===== -->
+  <button id="scrollTopBtn" aria-label="Scroll to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- ===== AI Chatbot Widget ===== -->
+  <div class="chatbot-widget">
+    <button id="chatToggle" class="chat-toggle-btn" aria-label="Open chat assistant" onclick="document.getElementById('chatWindow')?.classList.toggle('open')">
+      <i class="fa-solid fa-robot" id="chatIcon"></i>
+      <span class="chat-ping"></span>
+    </button>
+
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <i class="fa-solid fa-robot"></i>
+          <div>
+            <p class="chat-title">JCG Assistant</p>
+            <p class="chat-status"><span class="dot"></span> online · local AI</p>
+          </div>
+        </div>
+        <button id="chatClose" aria-label="Close chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+
+      <div class="chat-quick-replies" id="chatQuickReplies">
+        <button data-q="What skills do you have?">Skills</button>
+        <button data-q="Tell me about your projects">Projects</button>
+        <button data-q="What is your education?">Education</button>
+        <button data-q="How can I contact you?">Contact</button>
+      </div>
+
+      <form class="chat-input-row" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Ask about John's profile..." autocomplete="off" />
+        <button type="submit" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
