@@ -24,12 +24,6 @@
    an on-page message instead of breaking the page.
    ============================================================= */
 
-// Import the functions you need from the SDKs you need
-import { getAnalytics } from "firebase/analytics";
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -42,16 +36,17 @@ const firebaseConfig = {
   measurementId: "G-E3095CX3BF"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
 // Flag so other scripts can tell whether real credentials were provided.
-const FIREBASE_IS_CONFIGURED = firebaseConfig.apiKey !== "YOUR_API_KEY";
+const FIREBASE_IS_CONFIGURED = Boolean(
+  firebaseConfig.apiKey &&
+  firebaseConfig.apiKey !== "YOUR_API_KEY" &&
+  firebaseConfig.projectId &&
+  firebaseConfig.projectId !== "YOUR_PROJECT_ID"
+);
 
 let db = null;
 
-if (FIREBASE_IS_CONFIGURED) {
+if (FIREBASE_IS_CONFIGURED && typeof firebase !== "undefined") {
   try {
     firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
