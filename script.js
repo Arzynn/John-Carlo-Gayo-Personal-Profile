@@ -6,6 +6,51 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------------------------
+     0. PAGE LOADING ANIMATION
+  ----------------------------------------------------------- */
+  const preloader = document.getElementById("preloader");
+  if (preloader) {
+    window.addEventListener("load", () => {
+      preloader.classList.add("done");
+      setTimeout(() => preloader.remove(), 600);
+    });
+    // Safety net: never let the preloader trap the user if 'load' is slow/blocked
+    setTimeout(() => preloader.classList.add("done"), 4000);
+  }
+
+  /* -----------------------------------------------------------
+     0b. DARK / LIGHT THEME TOGGLE (persisted in localStorage)
+  ----------------------------------------------------------- */
+  (function initThemeToggle() {
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById("themeToggle");
+    const moonIcon = document.getElementById("themeIconMoon");
+    const sunIcon = document.getElementById("themeIconSun");
+    if (!toggleBtn) return;
+
+    const saved = localStorage.getItem("jcmg-theme");
+    if (saved === "light") applyTheme("light");
+
+    function applyTheme(mode) {
+      if (mode === "light") {
+        root.setAttribute("data-theme", "light");
+        if (moonIcon) moonIcon.style.display = "none";
+        if (sunIcon) sunIcon.style.display = "";
+      } else {
+        root.removeAttribute("data-theme");
+        if (moonIcon) moonIcon.style.display = "";
+        if (sunIcon) sunIcon.style.display = "none";
+      }
+      localStorage.setItem("jcmg-theme", mode);
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      const isLight = root.getAttribute("data-theme") === "light";
+      applyTheme(isLight ? "dark" : "light");
+    });
+  })();
+
+  /* -----------------------------------------------------------
      1. STICKY NAVBAR + ACTIVE LINK ON SCROLL
   ----------------------------------------------------------- */
   const navbar = document.getElementById("navbar");
@@ -68,13 +113,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* -----------------------------------------------------------
      4. HERO TYPED TEXT EFFECT
+     A short, finite typewriter that cycles through a few roles
+     then stops on the last one — intentionally brief so it reads
+     as a detail, not a distraction. Respects reduced-motion.
   ----------------------------------------------------------- */
-  const typedTextEl = document.getElementById("typedText");
-  // Remove the "loading profile..." typing animation — leave no typed text
-  if (typedTextEl) typedTextEl.textContent = "";
-  // Hide the blinking cursor used by the typing effect
-  const cursorEl = document.querySelector(".cursor");
-  if (cursorEl) cursorEl.style.display = "none";
+  (function initTypedRoles() {
+    const typedTextEl = document.getElementById("typedText");
+    const cursorEl = document.querySelector(".cursor");
+    if (!typedTextEl) return;
+
+    const roles = ["Aspiring Software Developer", "Database Enthusiast", "AI & Web Builder"];
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      typedTextEl.textContent = roles[0];
+      if (cursorEl) cursorEl.style.display = "none";
+      return;
+    }
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function tick() {
+      const current = roles[roleIndex];
+
+      if (!deleting) {
+        charIndex++;
+        typedTextEl.textContent = current.slice(0, charIndex);
+        if (charIndex === current.length) {
+          // Pause on completed word
+          if (roleIndex === roles.length - 1) return; // stop on the final role
+          deleting = true;
+          setTimeout(tick, 1400);
+          return;
+        }
+      } else {
+        charIndex--;
+        typedTextEl.textContent = current.slice(0, charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          roleIndex++;
+        }
+      }
+      setTimeout(tick, deleting ? 35 : 55);
+    }
+
+    setTimeout(tick, 500);
+  })();
 
   /* -----------------------------------------------------------
      5. SCROLL REVEAL + ANIMATED SKILL BARS (IntersectionObserver)
@@ -82,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Tag elements for generic reveal animation
   document
     .querySelectorAll(
-      ".about-card, .skill-card, .project-card, .education-card, .contact-card, .section-title, .eyebrow"
+      ".about-card, .skill-card, .project-card, .education-card, .contact-card, .section-title, .eyebrow, .certificate-card, .timeline-item, .github-card, .contact-form-wrap, .guestbook-wrap"
     )
     .forEach((el) => el.classList.add("reveal"));
 
@@ -142,7 +228,308 @@ document.addEventListener("DOMContentLoaded", () => {
      7. AI CHATBOT (LOCAL, RULE-BASED — NO API KEY REQUIRED)
   ----------------------------------------------------------- */
   initChatbot();
+
+  /* -----------------------------------------------------------
+     8. NEW DYNAMIC MODULES
+  ----------------------------------------------------------- */
+  if (window.AOS) {
+    AOS.init({ duration: 600, once: true, offset: 60 });
+  }
+
+  renderCertificates();
+  renderTimeline();
+  fetchGitHubRepos("johncarlogayo");
+  initContactForm();
+  initGuestbook();
+  initVisitorCounter();
 });
+
+/* =============================================================
+   CERTIFICATES — data-driven grid
+   Add a new object here and a card renders automatically.
+   ============================================================= */
+function renderCertificates() {
+  const grid = document.getElementById("certificatesGrid");
+  if (!grid) return;
+
+  const certificates = [
+    {
+      title: "Introduction to Database Design",
+      issuer: "Coursera",
+      date: "2025",
+      icon: "fa-solid fa-database",
+    },
+    {
+      title: "Python for Data Analysis",
+      issuer: "Coursera",
+      date: "2025",
+      icon: "fa-brands fa-python",
+    },
+    {
+      title: "Responsive Web Design",
+      issuer: "freeCodeCamp",
+      date: "2024",
+      icon: "fa-solid fa-laptop-code",
+    },
+    {
+      title: "Git & GitHub Essentials",
+      issuer: "GitHub Skills",
+      date: "2024",
+      icon: "fa-brands fa-github",
+    },
+  ];
+
+  grid.innerHTML = certificates
+    .map(
+      (c) => `
+      <div class="certificate-card">
+        <i class="${c.icon} cert-icon"></i>
+        <h3>${c.title}</h3>
+        <p class="cert-issuer">${c.issuer} · ${c.date}</p>
+      </div>`
+    )
+    .join("");
+}
+
+/* =============================================================
+   TIMELINE — education + achievement milestones, one data source
+   ============================================================= */
+function renderTimeline() {
+  const list = document.getElementById("timelineList");
+  if (!list) return;
+
+  const milestones = [
+    { year: "2023", type: "education", title: "Started BS Computer Science", desc: "Began the BS Computer Science program, focusing on programming fundamentals and discrete math." },
+    { year: "2024", type: "achievement", title: "First full-stack project shipped", desc: "Built and deployed the SKionix Barangay Management System for a local case study." },
+    { year: "2025", type: "achievement", title: "Explored applied AI", desc: "Developed the Rice Yield and Student Performance prediction systems using Python." },
+    { year: "2025", type: "education", title: "Advanced to 3rd Year", desc: "Moved into database systems, software engineering, and AI fundamentals coursework." },
+    { year: "2026", type: "achievement", title: "Upgraded this portfolio", desc: "Rebuilt the site with live data, a Firestore backend, and GitHub-driven content." },
+  ];
+
+  list.innerHTML = milestones
+    .map(
+      (m) => `
+      <div class="timeline-item">
+        <div class="timeline-dot ${m.type}"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">${m.year}</span>
+          <span class="timeline-tag ${m.type}">${m.type === "education" ? "Education" : "Achievement"}</span>
+          <h3>${m.title}</h3>
+          <p>${m.desc}</p>
+        </div>
+      </div>`
+    )
+    .join("");
+}
+
+/* =============================================================
+   GITHUB API — live repositories
+   ============================================================= */
+async function fetchGitHubRepos(username) {
+  const container = document.getElementById("githubRepos");
+  if (!container) return;
+
+  try {
+    const res = await fetch(
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`
+    );
+    if (!res.ok) throw new Error(`GitHub API responded with ${res.status}`);
+    const repos = await res.json();
+
+    if (!Array.isArray(repos) || repos.length === 0) {
+      container.innerHTML = `<p class="github-empty">No public repositories found yet for @${username}.</p>`;
+      return;
+    }
+
+    container.innerHTML = repos
+      .map(
+        (r) => `
+        <a class="github-card" href="${r.html_url}" target="_blank" rel="noopener">
+          <div class="github-card-head">
+            <i class="fa-solid fa-code-branch"></i>
+            <h3>${r.name}</h3>
+          </div>
+          <p>${r.description ? r.description : "No description provided."}</p>
+          <div class="github-card-meta">
+            ${r.language ? `<span><i class="fa-solid fa-circle-dot"></i> ${r.language}</span>` : ""}
+            <span><i class="fa-regular fa-star"></i> ${r.stargazers_count}</span>
+            <span><i class="fa-solid fa-code-fork"></i> ${r.forks_count}</span>
+          </div>
+        </a>`
+      )
+      .join("");
+  } catch (err) {
+    console.warn("GitHub API fetch failed:", err);
+    container.innerHTML = `<p class="github-empty">Couldn't load live repositories right now (rate limit or offline). Visit <a href="https://github.com/${username}" target="_blank" rel="noopener">github.com/${username}</a> directly.</p>`;
+  }
+}
+
+/* =============================================================
+   CONTACT FORM — writes to Firestore "messages" collection
+   ============================================================= */
+function initContactForm() {
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("contactStatus");
+  const submitBtn = document.getElementById("contactSubmitBtn");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (!window.db) {
+      status.textContent =
+        "Firebase isn't connected yet — add your project's config to firebase-config.js to enable this form.";
+      status.className = "form-status warn";
+      return;
+    }
+
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const message = document.getElementById("contactMessage").value.trim();
+    if (!name || !email || !message) return;
+
+    submitBtn.disabled = true;
+    status.textContent = "Sending…";
+    status.className = "form-status";
+
+    try {
+      await window.db.collection("messages").add({
+        name,
+        email,
+        message,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      status.textContent = "Message sent — thank you! I'll get back to you soon.";
+      status.className = "form-status success";
+      form.reset();
+    } catch (err) {
+      console.error("Contact form error:", err);
+      status.textContent = "Something went wrong sending your message. Please try again.";
+      status.className = "form-status error";
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+}
+
+/* =============================================================
+   GUESTBOOK — live Firestore read + write
+   ============================================================= */
+function initGuestbook() {
+  const form = document.getElementById("guestbookForm");
+  const status = document.getElementById("guestStatus");
+  const submitBtn = document.getElementById("guestSubmitBtn");
+  const listEl = document.getElementById("guestbookList");
+  if (!form || !listEl) return;
+
+  if (!window.db) {
+    listEl.innerHTML = `<p class="guestbook-empty">Connect Firebase (see firebase-config.js) to enable the live guestbook.</p>`;
+  } else {
+    // Live-updating list, most recent first
+    window.db
+      .collection("guestbook")
+      .orderBy("createdAt", "desc")
+      .limit(20)
+      .onSnapshot(
+        (snapshot) => {
+          if (snapshot.empty) {
+            listEl.innerHTML = `<p class="guestbook-empty">No entries yet — be the first to sign!</p>`;
+            return;
+          }
+          listEl.innerHTML = snapshot.docs
+            .map((doc) => {
+              const d = doc.data();
+              return `
+                <div class="guestbook-entry">
+                  <i class="fa-solid fa-user-pen"></i>
+                  <div>
+                    <p class="guestbook-name">${escapeHtml(d.name || "Anonymous")}</p>
+                    <p class="guestbook-msg">${escapeHtml(d.message || "")}</p>
+                  </div>
+                </div>`;
+            })
+            .join("");
+        },
+        (err) => {
+          console.error("Guestbook listener error:", err);
+          listEl.innerHTML = `<p class="guestbook-empty">Couldn't load guestbook entries right now.</p>`;
+        }
+      );
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!window.db) {
+      status.textContent = "Firebase isn't connected yet — see firebase-config.js.";
+      status.className = "form-status warn";
+      return;
+    }
+
+    const guestName = document.getElementById("guestName").value.trim();
+    const guestMessage = document.getElementById("guestMessage").value.trim();
+    if (!guestName || !guestMessage) return;
+
+    submitBtn.disabled = true;
+    try {
+      await window.db.collection("guestbook").add({
+        name: guestName,
+        message: guestMessage,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      status.textContent = "Thanks for signing the guestbook!";
+      status.className = "form-status success";
+      form.reset();
+    } catch (err) {
+      console.error("Guestbook submit error:", err);
+      status.textContent = "Couldn't post your entry. Please try again.";
+      status.className = "form-status error";
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* =============================================================
+   VISITOR COUNTER — Firestore document with an atomic increment,
+   counted once per browser session via sessionStorage
+   ============================================================= */
+function initVisitorCounter() {
+  const countEl = document.getElementById("visitorCount");
+  if (!countEl) return;
+
+  if (!window.db) {
+    countEl.textContent = "connect Firebase";
+    return;
+  }
+
+  const statsRef = window.db.collection("stats").doc("visitors");
+  const alreadyCounted = sessionStorage.getItem("jcmg-visit-counted");
+
+  const run = alreadyCounted
+    ? statsRef.get()
+    : statsRef
+        .set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true })
+        .then(() => {
+          sessionStorage.setItem("jcmg-visit-counted", "1");
+          return statsRef.get();
+        });
+
+  run
+    .then((doc) => {
+      const count = doc.exists ? doc.data().count : 1;
+      countEl.textContent = count ?? "1";
+    })
+    .catch((err) => {
+      console.warn("Visitor counter error:", err);
+      countEl.textContent = "—";
+    });
+}
 
 
 /* =============================================================

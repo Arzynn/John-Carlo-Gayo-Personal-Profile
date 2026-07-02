@@ -12,9 +12,34 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
+  <!-- Tailwind CSS (utility classes only — preflight disabled so it layers on top of style.css instead of resetting it) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: { preflight: false },
+      theme: {
+        extend: {
+          colors: {
+            accent: "#3b82f6",
+            accent2: "#38bdf8",
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- AOS (Animate On Scroll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- ===== Page Loading Animation ===== -->
+  <div id="preloader">
+    <div class="preloader-mark">JCMG</div>
+    <div class="preloader-bar"><span></span></div>
+  </div>
 
   <!-- ===== Sticky Navbar ===== -->
   <header class="navbar" id="navbar">
@@ -26,13 +51,21 @@
         <a href="#about" class="nav-link">about</a>
         <a href="#skills" class="nav-link">skills</a>
         <a href="#projects" class="nav-link">projects</a>
-        <a href="#education" class="nav-link">education</a>
+        <a href="#certificates" class="nav-link">certificates</a>
+        <a href="#timeline" class="nav-link">journey</a>
+        <a href="#github" class="nav-link">github</a>
         <a href="#contact" class="nav-link">contact</a>
       </nav>
 
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-tools">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme" title="Toggle theme">
+          <i class="fa-solid fa-moon" id="themeIconMoon"></i>
+          <i class="fa-solid fa-sun" id="themeIconSun" style="display:none;"></i>
+        </button>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -52,7 +85,7 @@
       </div>
 
       <p class="terminal-line">
-        <span class="prompt">Personal Profile...</span>
+        <span class="prompt">$ whoami →</span>
         <span id="typedText" class="typed-text"></span><span class="cursor">█</span>
       </p>
 
@@ -67,6 +100,9 @@
       <div class="hero-actions">
         <a href="#projects" class="btn btn-primary">
           <i class="fa-solid fa-diagram-project"></i> View My Projects
+        </a>
+        <a href="assets/John-Carlo-Gayo-Resume.pdf" class="btn btn-ghost" download>
+          <i class="fa-solid fa-file-arrow-down"></i> Download Resume
         </a>
         <a href="#contact" class="btn btn-ghost">
           <i class="fa-regular fa-paper-plane"></i> Get In Touch
@@ -298,23 +334,30 @@
     </div>
   </section>
 
-  <!-- ===== Education Section ===== -->
-  <section class="section section-alt" id="education">
+  <!-- ===== Certificates Section ===== -->
+  <section class="section" id="certificates">
     <div class="section-inner">
-      <p class="eyebrow"> education</p>
-      <h2 class="section-title">Academic journey</h2>
+      <p class="eyebrow"> certificates</p>
+      <h2 class="section-title">Certifications &amp; training</h2>
+      <p class="section-lead">Rendered dynamically from a data array in <code>script.js</code> — add a new object and it appears here automatically.</p>
+      <div class="certificates-grid" id="certificatesGrid" data-aos="fade-up">
+        <!-- populated by script.js: renderCertificates() -->
+      </div>
+    </div>
+  </section>
 
-      <div class="education-card">
-        <div class="education-row">
-          <i class="fa-solid fa-school edu-icon"></i>
-          <div>
-            <h3>Bachelor of Science in Computer Science</h3>
-            <p class="edu-sub">Current Program · Current Year Level: <strong>3rd Year</strong></p>
-          </div>
-        </div>
+  <!-- ===== Timeline Section (Education + Achievements) ===== -->
+  <section class="section section-alt" id="timeline">
+    <div class="section-inner">
+      <p class="eyebrow"> journey</p>
+      <h2 class="section-title">Education &amp; achievement timeline</h2>
+      <p class="section-lead">A chronological view of academic milestones and achievements, generated from a single data source.</p>
 
-        <div class="edu-divider"></div>
+      <div class="timeline" id="timelineList">
+        <!-- populated by script.js: renderTimeline() -->
+      </div>
 
+      <div class="education-card" data-aos="fade-up">
         <h4 class="edu-subtitle">Relevant Coursework</h4>
         <div class="coursework-grid">
           <span><i class="fa-solid fa-code"></i> Data Structures &amp; Algorithms</span>
@@ -326,6 +369,20 @@
           <span><i class="fa-solid fa-shield-halved"></i> Information Assurance &amp; Security</span>
           <span><i class="fa-solid fa-microchip"></i> Computer Organization</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GitHub Activity Section (Live GitHub API) ===== -->
+  <section class="section" id="github">
+    <div class="section-inner">
+      <p class="eyebrow"> github</p>
+      <h2 class="section-title">Live from GitHub</h2>
+      <p class="section-lead">
+        Pulled in real time from the <a href="https://docs.github.com/en/rest" target="_blank" rel="noopener">GitHub REST API</a> — no manual updates needed when a new repo is pushed.
+      </p>
+      <div class="github-grid" id="githubRepos" data-aos="fade-up">
+        <div class="github-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading repositories…</div>
       </div>
     </div>
   </section>
@@ -370,12 +427,53 @@
           <span class="contact-value">linkedin.com/in/johncarlogayo</span>
         </a>
       </div>
+
+      <!-- ===== Contact Form (writes to Firebase Firestore) ===== -->
+      <div class="contact-form-wrap" data-aos="fade-up">
+        <h3 class="contact-form-title"><i class="fa-solid fa-comment-dots"></i> Send a message</h3>
+        <p class="contact-form-sub">Stored directly in a Firestore <code>messages</code> collection — see <code>firebase-config.js</code> to connect your own project.</p>
+        <form id="contactForm" class="contact-form">
+          <div class="form-row">
+            <input type="text" id="contactName" name="name" placeholder="Your name" required />
+            <input type="email" id="contactEmail" name="email" placeholder="Your email" required />
+          </div>
+          <textarea id="contactMessage" name="message" rows="4" placeholder="Your message" required></textarea>
+          <button type="submit" class="btn btn-primary" id="contactSubmitBtn">
+            <i class="fa-solid fa-paper-plane"></i> Send Message
+          </button>
+          <p class="form-status" id="contactStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <!-- ===== Guestbook (Firestore, live-updating) ===== -->
+      <div class="guestbook-wrap" data-aos="fade-up">
+        <h3 class="contact-form-title"><i class="fa-solid fa-book-open"></i> Guestbook</h3>
+        <p class="contact-form-sub">Leave a short note for visitors — entries appear below instantly for everyone, powered by a live Firestore listener.</p>
+        <form id="guestbookForm" class="contact-form guestbook-form">
+          <div class="form-row">
+            <input type="text" id="guestName" name="guestName" placeholder="Your name" maxlength="40" required />
+            <input type="text" id="guestMessage" name="guestMessage" placeholder="Leave a note…" maxlength="140" required />
+          </div>
+          <button type="submit" class="btn btn-ghost" id="guestSubmitBtn">
+            <i class="fa-solid fa-plus"></i> Sign the guestbook
+          </button>
+          <p class="form-status" id="guestStatus" role="status" aria-live="polite"></p>
+        </form>
+        <div class="guestbook-list" id="guestbookList">
+          <p class="guestbook-empty">Connect Firebase to load guestbook entries.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
-    <p>&copy; 2026 John Carlo M. Gayo. All Rights Reserved.</p>
+    <div class="footer-inner">
+      <p>&copy; 2026 John Carlo M. Gayo. All Rights Reserved.</p>
+      <p class="visitor-badge" id="visitorBadge">
+        <i class="fa-solid fa-eye"></i> <span id="visitorCount">—</span> visitors
+      </p>
+    </div>
   </footer>
 
   <!-- ===== Scroll To Top ===== -->
@@ -419,6 +517,14 @@
       </form>
     </div>
   </div>
+
+  <!-- Firebase (compat SDK — simplest syntax for beginners) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
+  <!-- AOS (Animate On Scroll) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
   <script src="script.js"></script>
 </body>
