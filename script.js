@@ -208,6 +208,86 @@ document.addEventListener("DOMContentLoaded", () => {
   ----------------------------------------------------------- */
   const filterButtons = document.querySelectorAll(".filter-btn");
   const projectCards = document.querySelectorAll(".project-card");
+  const projectModal = document.getElementById("projectModal");
+  const projectModalContent = document.getElementById("projectModalContent");
+  const projectDetails = {
+    barangay: {
+      title: "SKionix Barangay Management System",
+      summary: "A prototype for a barangay office portal that helps staff manage resident records, services, and document requests in one place.",
+      highlights: [
+        "Resident profile management",
+        "Digital request tracking",
+        "Clean admin dashboard layout",
+        "Paperless workflow prototype"
+      ],
+      stack: ["HTML", "CSS", "JavaScript", "Database"],
+      preview: "Designed as a practical admin-side prototype with a simple navigation flow and service-focused layout."
+    },
+    rice: {
+      title: "Rice Yield Prediction System",
+      summary: "A data-driven prototype for forecasting crop yield using agricultural and environmental factors.",
+      highlights: [
+        "Prediction dashboard concept",
+        "Input fields for farming variables",
+        "Visual analytics layout",
+        "Simple model result interpretation"
+      ],
+      stack: ["Python", "Machine Learning", "Data Analysis"],
+      preview: "Shows how a farming decision-support system could help users analyze crop conditions and expected output."
+    },
+    student: {
+      title: "Student Academic Performance Prediction System",
+      summary: "A prototype that demonstrates how academic records can be used to predict trends and identify students who may need support.",
+      highlights: [
+        "Student performance analytics",
+        "Prediction results overview",
+        "Support-oriented reporting",
+        "Database-backed records concept"
+      ],
+      stack: ["Python", "Database Management", "Prediction Models"],
+      preview: "Built as a concept demo for academic monitoring and early intervention planning."
+    },
+    portfolio: {
+      title: "Personal Portfolio Website",
+      summary: "The current portfolio project — a responsive website that presents my background, skills, projects, and contact information.",
+      highlights: [
+        "Animated hero section",
+        "Interactive project showcase",
+        "Built-in local AI chatbot",
+        "Dark/light theme experience"
+      ],
+      stack: ["HTML", "CSS", "JavaScript"],
+      preview: "A polished front-end prototype used to present my work and experience in a modern format."
+    }
+  };
+
+  function openProjectModal(projectKey) {
+    const detail = projectDetails[projectKey];
+    if (!detail || !projectModalContent) return;
+
+    projectModalContent.innerHTML = `
+      <h3>${detail.title}</h3>
+      <p>${detail.summary}</p>
+      <div class="project-preview-box">
+        <strong>Prototype preview:</strong>
+        <p>${detail.preview}</p>
+      </div>
+      <ul>
+        ${detail.highlights.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+      <div class="tech-tags">
+        ${detail.stack.map((tag) => `<span>${tag}</span>`).join("")}
+      </div>
+    `;
+
+    projectModal?.classList.add("open");
+    projectModal?.setAttribute("aria-hidden", "false");
+  }
+
+  function closeProjectModal() {
+    projectModal?.classList.remove("open");
+    projectModal?.setAttribute("aria-hidden", "true");
+  }
 
   filterButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -222,6 +302,18 @@ document.addEventListener("DOMContentLoaded", () => {
         card.classList.toggle("hidden-card", !match);
       });
     });
+  });
+
+  document.querySelectorAll("[data-open-project]").forEach((button) => {
+    button.addEventListener("click", () => openProjectModal(button.getAttribute("data-open-project")));
+  });
+
+  document.querySelectorAll("[data-close-project]").forEach((element) => {
+    element.addEventListener("click", closeProjectModal);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeProjectModal();
   });
 
   /* -----------------------------------------------------------

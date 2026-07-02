@@ -90,7 +90,7 @@ breaking.
 1. Create a free project at [console.firebase.google.com](https://console.firebase.google.com).
 2. Register a **Web app** (the `</>` icon) inside that project.
 3. Copy the `firebaseConfig` object it gives you into `firebase-config.js`,
-   replacing the placeholder values.
+   replacing the example values.
 4. In the console: **Build → Firestore Database → Create database** → start in
    test mode.
 5. Reload the site. The contact form, guestbook, and visitor counter now read
@@ -153,7 +153,7 @@ git push -u origin feature/dynamic-upgrade
 
 ## 📄 License
 
-Free to use and modify for personal portfolio purposes.
+
 
 ---
 

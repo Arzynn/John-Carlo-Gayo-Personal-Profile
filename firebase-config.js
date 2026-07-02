@@ -11,7 +11,7 @@
    2. Inside the project, click the "</>" (Web) icon to register
       a new web app. Give it any nickname.
    3. Firebase will show you a firebaseConfig object — copy it
-      and paste it below, replacing the placeholder values.
+      and paste it below, replacing the example values.
    4. In the left sidebar, go to Build → Firestore Database →
       "Create database" → start in TEST MODE (fine for a school
       project; see the security-rules note at the bottom of this
@@ -39,9 +39,9 @@ const firebaseConfig = {
 // Flag so other scripts can tell whether real credentials were provided.
 const FIREBASE_IS_CONFIGURED = Boolean(
   firebaseConfig.apiKey &&
-  firebaseConfig.apiKey !== "YOUR_API_KEY" &&
+  firebaseConfig.apiKey.trim() &&
   firebaseConfig.projectId &&
-  firebaseConfig.projectId !== "YOUR_PROJECT_ID"
+  firebaseConfig.projectId.trim()
 );
 
 let db = null;

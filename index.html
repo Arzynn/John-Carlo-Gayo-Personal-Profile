@@ -254,7 +254,7 @@
 
       <div class="projects-grid" id="projectsGrid">
 
-        <article class="project-card" data-category="web database">
+        <article class="project-card" data-category="web database" data-project="barangay">
           <div class="project-top">
             <i class="fa-solid fa-building-columns project-icon"></i>
           </div>
@@ -269,11 +269,11 @@
             </div>
           </div>
           <div class="project-footer">
-            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+            <button class="btn-github" type="button" data-open-project="barangay"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Prototype</button>
           </div>
         </article>
 
-        <article class="project-card" data-category="ai">
+        <article class="project-card" data-category="ai" data-project="rice">
           <div class="project-top">
             <i class="fa-solid fa-seedling project-icon"></i>
           </div>
@@ -288,11 +288,11 @@
             </div>
           </div>
           <div class="project-footer">
-            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+            <button class="btn-github" type="button" data-open-project="rice"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Prototype</button>
           </div>
         </article>
 
-        <article class="project-card" data-category="ai database">
+        <article class="project-card" data-category="ai database" data-project="student">
           <div class="project-top">
             <i class="fa-solid fa-chart-line project-icon"></i>
           </div>
@@ -307,11 +307,11 @@
             </div>
           </div>
           <div class="project-footer">
-            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+            <button class="btn-github" type="button" data-open-project="student"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Prototype</button>
           </div>
         </article>
 
-        <article class="project-card" data-category="web">
+        <article class="project-card" data-category="web" data-project="portfolio">
           <div class="project-top">
             <i class="fa-solid fa-id-card project-icon"></i>
           </div>
@@ -326,10 +326,20 @@
             </div>
           </div>
           <div class="project-footer">
-            <a href="#" class="btn-github"><i class="fa-brands fa-github"></i> View Code</a>
+            <button class="btn-github" type="button" data-open-project="portfolio"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Prototype</button>
           </div>
         </article>
 
+      </div>
+
+      <div class="project-modal" id="projectModal" aria-hidden="true">
+        <div class="project-modal-backdrop" data-close-project></div>
+        <div class="project-modal-card" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+          <button class="project-modal-close" type="button" aria-label="Close project preview" data-close-project>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <div class="project-modal-content" id="projectModalContent"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -434,10 +444,10 @@
         <p class="contact-form-sub">Stored directly in a Firestore <code>messages</code> collection — see <code>firebase-config.js</code> to connect your own project.</p>
         <form id="contactForm" class="contact-form">
           <div class="form-row">
-            <input type="text" id="contactName" name="name" placeholder="Your name" required />
-            <input type="email" id="contactEmail" name="email" placeholder="Your email" required />
+            <input type="text" id="contactName" name="name" placeholder="Enter your name" required />
+            <input type="email" id="contactEmail" name="email" placeholder="Enter your email" required />
           </div>
-          <textarea id="contactMessage" name="message" rows="4" placeholder="Your message" required></textarea>
+          <textarea id="contactMessage" name="message" rows="4" placeholder="Write your message here" required></textarea>
           <button type="submit" class="btn btn-primary" id="contactSubmitBtn">
             <i class="fa-solid fa-paper-plane"></i> Send Message
           </button>
@@ -451,8 +461,8 @@
         <p class="contact-form-sub">Leave a short note for visitors — entries appear below instantly for everyone, powered by a live Firestore listener.</p>
         <form id="guestbookForm" class="contact-form guestbook-form">
           <div class="form-row">
-            <input type="text" id="guestName" name="guestName" placeholder="Your name" maxlength="40" required />
-            <input type="text" id="guestMessage" name="guestMessage" placeholder="Leave a note…" maxlength="140" required />
+            <input type="text" id="guestName" name="guestName" placeholder="Enter your name" maxlength="40" required />
+            <input type="text" id="guestMessage" name="guestMessage" placeholder="Leave a note for John" maxlength="140" required />
           </div>
           <button type="submit" class="btn btn-ghost" id="guestSubmitBtn">
             <i class="fa-solid fa-plus"></i> Sign the guestbook
@@ -512,7 +522,7 @@
       </div>
 
       <form class="chat-input-row" id="chatForm">
-        <input type="text" id="chatInput" placeholder="Ask about John's profile..." autocomplete="off" />
+        <input type="text" id="chatInput" placeholder="Ask about John’s profile..." autocomplete="off" />
         <button type="submit" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i></button>
       </form>
     </div>
