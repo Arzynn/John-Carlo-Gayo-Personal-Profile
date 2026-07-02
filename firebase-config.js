@@ -24,14 +24,27 @@
    an on-page message instead of breaking the page.
    ============================================================= */
 
+// Import the functions you need from the SDKs you need
+import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyCsT587jLNtM7ldt7JE3hyEPjIgqQhp0Zs",
+  authDomain: "jcmg-portfolio.firebaseapp.com",
+  projectId: "jcmg-portfolio",
+  storageBucket: "jcmg-portfolio.firebasestorage.app",
+  messagingSenderId: "325342777828",
+  appId: "1:325342777828:web:9c64def6a07965f96537f1",
+  measurementId: "G-E3095CX3BF"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // Flag so other scripts can tell whether real credentials were provided.
 const FIREBASE_IS_CONFIGURED = firebaseConfig.apiKey !== "YOUR_API_KEY";
