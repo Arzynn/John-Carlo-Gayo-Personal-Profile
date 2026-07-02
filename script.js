@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderCertificates();
   renderTimeline();
-  fetchGitHubRepos("johncarlogayo");
+  fetchGitHubRepos("Arzynn");
   initContactForm();
   initGuestbook();
   initVisitorCounter();
